@@ -20,11 +20,15 @@ jobs:
         run: |
           flutter config --enable-windows-desktop
           flutter build windows --release
+      - name: Package Windows Build
+        run: |
+          cd build/windows/x64/runner/Release
+          Compress-Archive -Path * -DestinationPath ../../../../../myapp-windows.zip
       - name: Crear Release y Subir Archivos
         uses: softprops/action-gh-release@v1
         with:
           files: |
             build/app/outputs/flutter-apk/app-release.apk
-            build/windows/x64/runner/Release/myapp.exe
+            myapp-windows.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
